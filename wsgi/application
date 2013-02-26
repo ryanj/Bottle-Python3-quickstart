@@ -7,4 +7,4 @@ application = bottle.Bottle()
 @application.route('/')
 @application.route('/hello/<name>')
 def greet(name='Stranger'):
-    return template('Hello {{name}}, how are you?', name=name)
+    return bottle.template('Hello {{name}}, how are you?', name=name)
