@@ -4,8 +4,8 @@ import bottle
 
 application = bottle.Bottle()
 
-@application.route('/')
-@application.route('/hello')
-@application.route('/hello/<name>')
+@route('/')
+@route('/hello')
+@route('/hello/<name>')
 def greet(name='Stranger'):
     return bottle.template('Hello {{name}}, how are you?', name=name)
