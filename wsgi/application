@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
-import template,Bottle,route from bottle
+import os, pymongo
+from bottle import template, Bottle, route
 
-application = bottle.Bottle()
+application = Bottle()
 
 @route('/')
 @route('/hello')
@@ -10,5 +11,7 @@ application = bottle.Bottle()
 def greet(name='Stranger'):
     return template('Hello {{name}}, how are you?', name=name)
 
-
-
+"""
+@application.route("/ws/parks")
+def parks():
+    conn = pymongo.Connnection(

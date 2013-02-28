@@ -10,7 +10,7 @@ setup(name='YourAppName', version='1.0',
       install_requires=['WebOb',
                           'bottle',
                         #  'mysql-connector-python',
-                        #  'pymongo',
+                          'pymongo',
                         #  'psycopg2',
       ],
      )
