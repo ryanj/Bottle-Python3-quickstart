@@ -30,7 +30,14 @@ def parks():
     return json.dumps(str(list(result)))
 
 #return a specific park given it's mongo _id
-@app.route("/parks/park/<parkId>")
+@app.get("/park")
+def onePark_form():
+    return '''<form method="POST" action="/park">
+                <input name="id" value="Park ID" type="text" />
+                <input type="submit" />
+              </form>'''
+
+@app.post("/park")
 def onePark(parkId):
     #setup the connection
     conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
@@ -62,7 +69,7 @@ def near():
     lon = float(bottle.request.forms.get('lon'))
 
     #use the request parameters in the query
-    result = db.parkpoints.find({"pos" : { "$near" : [lat,lon]}})
+    result = db.parkpoints.find({"pos" : { "$near" : [lat,lon]}}).limit(10)
 
     #turn the results into valid JSON
     return json.dumps(str(list(result)))
