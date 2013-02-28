@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, pymongo, bottle, json
+import os, pymongo, bottle, json, json_utils
 
 application = bottle.Bottle()
 app = application
@@ -26,7 +26,7 @@ def parks():
     result = db.parkpoints.find()
 
     #Now turn the results into valid JSON
-    return str(json.dumps({'results':list(result)},default=json_util.default))
+    return str(json.dumps({'results':list(result)},default=json_utils.default))
 
 #return a specific park given it's mongo _id
 @app.route("/parks/park/<parkId>")
@@ -39,7 +39,7 @@ def onePark(parkId):
     result = db.parkpoints.find({'_id': objectid.ObjectId(parkId)})
 
     #turn the results into valid JSON
-    return str(json.dumps({'results' : list(result)},default=json_util.default))
+    return str(json.dumps({'results' : list(result)},default=json_utils.default))
 
 #find parks near a lat and long passed in as query parameters (near?lat=45.5&lon=-82)
 @app.route("/parks/near")
@@ -56,7 +56,7 @@ def near():
     result = db.parkpoints.find({"pos" : { "$near" : [lon,lat]}})
 
     #turn the results into valid JSON
-    return str(json.dumps({'results' : list(result)},default=json_util.default))
+    return str(json.dumps({'results' : list(result)},default=json_utils.default))
 
 #find parks with a certain name (using regex) near a lat long pair such as above
 @app.route("/parks/name/near/<name>")
@@ -76,5 +76,5 @@ def nameNear(name):
     result = db.parkpoints.find({"Name" : myregex, "pos" : { "$near" : [lon,lat]}})
 
     #turn the results into valid JSON
-    return str(json.dumps({'results' : list(result)},default=json_util.default))
+    return str(json.dumps({'results' : list(result)},default=json_utils.default))
 
