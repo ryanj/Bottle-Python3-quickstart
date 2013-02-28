@@ -44,7 +44,7 @@ def onePark():
     db = conn.parks
 
     #query based on the objectid
-    parkId = float(bottle.request.forms.get('parkId'))
+    parkId = bottle.request.forms.get('parkId')
     result = db.parkpoints.find({'_id': bson.objectid.ObjectId(parkId)})
 
     #turn the results into valid JSON
