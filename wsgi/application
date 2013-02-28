@@ -92,9 +92,9 @@ def nameNear():
     db = conn.parks
 
     #get the request parameters
-    name = request.args.get('parkname')
-    lat = float(request.args.get('lat'))
-    lon = float(request.args.get('lon'))
+    name = request.forms.get('parkname')
+    lat = float(request.forms.get('lat'))
+    lon = float(request.forms.get('lon'))
 
     #compile the regex we want to search for and make it case insensitive
     myregex = re.compile(name, re.I)
