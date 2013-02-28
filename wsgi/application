@@ -3,12 +3,13 @@
 import os, pymongo, bottle
 
 application = bottle.Bottle()
+app = application
 
-@application.route('/')
+@app.route('/')
 @application.route('/hello')
 @application.route('/hello/<name>')
 def greet(name='Stranger'):
-    return application.template('Hello {{name}}, how are you?', name=name)
+    return bottle.template('Hello {{name}}, how are you?', name=name)
 
 """
 @application.route("/ws/parks")
@@ -16,8 +17,8 @@ def parks():
     conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
     db = conn.parks
     result = db.parkpoints.find()
-    return @application.template(str(json.dumps({'results':list(result)}, default=json_util.default)))
+    return bottle.template(str(json.dumps({'results':list(result)}, default=json_util.default)))
 
-
+@app.route("/ws/parks/park/<parkId>")
 
 """
