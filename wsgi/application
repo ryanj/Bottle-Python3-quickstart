@@ -14,4 +14,10 @@ def greet(name='Stranger'):
 """
 @application.route("/ws/parks")
 def parks():
-    conn = pymongo.Connnection(
+    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB
+
+
+
+
+
+"""
