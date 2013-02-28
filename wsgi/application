@@ -9,7 +9,7 @@ app = application
 @app.route('/hello')
 @app.route('/hello/<name>')
 def greet(name='Stranger'):
-    return bottle.template('Hello {{name}}, how are you?', name=name)
+    return 'Hello %s, how are you?' % name
 
 
 # mongoimport -d parks -c parkpoints --type json --file app-root/data/parkcoord.json -h $OPENSHIFT_MONGODB_DB_HOST -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
@@ -26,7 +26,7 @@ def parks():
     result = db.parkpoints.find()
 
     #Now turn the results into valid JSON
-    return json.dumps(list(str(list(result))))
+    return list(json.dumps(str(list(result))))
 
 #return a specific park given it's mongo _id
 @app.route("/parks/park/<parkId>")
