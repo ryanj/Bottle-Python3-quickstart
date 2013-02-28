@@ -33,17 +33,18 @@ def parks():
 @app.get("/park")
 def onePark_form():
     return '''<form method="POST" action="/park">
-                <input name="id" value="Park ID" type="text" />
+                <input name="parkId" value="Park ID" type="text" />
                 <input type="submit" />
               </form>'''
 
 @app.post("/park")
-def onePark(parkId):
+def onePark():
     #setup the connection
     conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #query based on the objectid
+    parkId = float(bottle.request.forms.get('parkId'))
     result = db.parkpoints.find({'_id': bson.objectid.ObjectId(parkId)})
 
     #turn the results into valid JSON
@@ -75,7 +76,7 @@ def near():
     return json.dumps(str(list(result)))
 
 #find parks with a certain name (using regex) near a lat long pair such as above
-@app.route("/parks/name/near/<name>")
+@app.route("/parks/name/near")
 def nameNear(name):
     #setup the connection
     conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
