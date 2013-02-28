@@ -30,14 +30,14 @@ def parks():
     return json.dumps(str(list(result)))
 
 #return a specific park given it's mongo _id
-@app.get("/park")
+@app.get("/parks/park")
 def onePark_form():
-    return '''<form method="POST" action="/park">
+    return '''<form method="POST" action="/parks/park">
                 <input name="parkId" value="Park ID" type="text" />
                 <input type="submit" />
               </form>'''
 
-@app.post("/park")
+@app.post("/parks/park")
 def onePark():
     #setup the connection
     conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
