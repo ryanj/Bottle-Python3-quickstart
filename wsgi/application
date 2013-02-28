@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
-from os import environ
+import os, pymongo, json, bson, re
 from bottle import Bottle, request
-import pymongo, json, bson, re
 
 application = Bottle()
 app = application
@@ -21,7 +20,7 @@ def greet(name='Stranger'):
 @app.get("/parks")
 def parks():
     #setup the connection
-    conn = pymongo.Connection(environ['OPENSHIFT_MONGODB_DB_URL'])
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #query the DB for all the parkpoints
@@ -41,7 +40,7 @@ def onePark_form():
 @app.post("/park")
 def onePark():
     #setup the connection
-    conn = pymongo.Connection(environ['OPENSHIFT_MONGODB_DB_URL'])
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #query based on the objectid
@@ -63,7 +62,7 @@ def near_form():
 @app.post("/parks/near")
 def near():
     #setup the connection
-    conn = pymongo.Connection(environ['OPENSHIFT_MONGODB_DB_URL'])
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #get the request parameters
@@ -89,7 +88,7 @@ def nameNear_form():
 @app.post("/parks/name/near")
 def nameNear():
     #setup the connection
-    conn = pymongo.Connection(environ['OPENSHIFT_MONGODB_DB_URL'])
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #get the request parameters
@@ -117,7 +116,7 @@ def parkName_form():
 @app.post("/parks/name")
 def parkName():
     #setup the connection
-    conn = pymongo.Connection(environ['OPENSHIFT_MONGODB_DB_URL'])
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
 
     #query based on the objectid
