@@ -6,7 +6,7 @@ from bottle import template, Bottle, route
 application = Bottle()
 
 @route('/')
-@route('/hello')
+@application.route('/hello')
 @route('/hello/<name>')
 def greet(name='Stranger'):
     return template('Hello {{name}}, how are you?', name=name)
@@ -14,9 +14,10 @@ def greet(name='Stranger'):
 """
 @application.route("/ws/parks")
 def parks():
-    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB
-
-
+    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
+    db = conn.parks
+    result = db.parkpoints.find()
+    return str(json.dumps({'results':list(result)}, default=json_util.default))
 
 
 
