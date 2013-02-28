@@ -50,8 +50,8 @@ def near():
     db = conn.parks
 
     #get the request parameters
-    lat = float(request.args.get('lat'))
-    lon = float(request.args.get('lon'))
+    lat = float(bottle.request.args.get('lat'))
+    lon = float(bottle.request.args.get('lon'))
 
     #use the request parameters in the query
     result = db.parkpoints.find({"pos" : { "$near" : [lon,lat]}})
