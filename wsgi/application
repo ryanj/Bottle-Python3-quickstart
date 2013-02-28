@@ -36,7 +36,7 @@ def onePark(parkId):
     db = conn.parks
 
     #query based on the objectid
-    result = db.parkpoints.find({'_id': objectid.ObjectId(parkId)})
+    result = db.parkpoints.find({'_id': pymongo.ObjectId(parkId)})
 
     #turn the results into valid JSON
     return json.dumps(str(list(result)))
