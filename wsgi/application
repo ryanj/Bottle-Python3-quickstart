@@ -26,7 +26,7 @@ def parks():
     result = db.parkpoints.find()
 
     #Now turn the results into valid JSON
-    return json.dumps(str(result))
+    return list(result)
 
 #return a specific park given it's mongo _id
 @app.route("/parks/park/<parkId>")
