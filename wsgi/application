@@ -9,7 +9,7 @@ app = application
 @app.route('/hello')
 @app.route('/hello/<name>')
 def greet(name='Stranger'):
-    return bottle.template('Hello %s, how are you?', name)
+    return bottle.template('Hello {{name}}, how are you?', name=name)
 
 """
 @app.route("/parks")
