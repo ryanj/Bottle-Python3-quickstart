@@ -11,16 +11,70 @@ app = application
 def greet(name='Stranger'):
     return bottle.template('Hello {{name}}, how are you?', name=name)
 
-"""
+
+# mongoimport -d parks -c parkpoints --type json --file app-root/data/parkcoord.json -h $OPENSHIFT_MONGODB_DB_HOST -u admin -p $OPENSHIFT_MONGODB_DB_PASSWORD
+# db.parkpoints.ensureIndex( { pos : "2d" } );
+
+
 @app.route("/parks")
 def parks():
-    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
+    #setup the connection
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
-    result = db.parkpoints.find()
-    return bottle.template(str(json.dumps({'results':list(result)}, default=json_util.default)))
 
+    #query the DB for all the parkpoints
+    result = db.parkpoints.find()
+
+    #Now turn the results into valid JSON
+    return str(json.dumps({'results':list(result)},default=json_util.default))
+
+#return a specific park given it's mongo _id
 @app.route("/parks/park/<parkId>")
-    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
+def onePark(parkId):
+    #setup the connection
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
     db = conn.parks
-    result = db.parkpoints.find({'_id':objectied.ObjectID(parkID)})
-"""
+
+    #query based on the objectid
+    result = db.parkpoints.find({'_id': objectid.ObjectId(parkId)})
+
+    #turn the results into valid JSON
+    return str(json.dumps({'results' : list(result)},default=json_util.default))
+
+#find parks near a lat and long passed in as query parameters (near?lat=45.5&lon=-82)
+@app.route("/parks/near")
+def near():
+    #setup the connection
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db = conn.parks
+
+    #get the request parameters
+    lat = float(request.args.get('lat'))
+    lon = float(request.args.get('lon'))
+
+    #use the request parameters in the query
+    result = db.parkpoints.find({"pos" : { "$near" : [lon,lat]}})
+
+    #turn the results into valid JSON
+    return str(json.dumps({'results' : list(result)},default=json_util.default))
+
+#find parks with a certain name (using regex) near a lat long pair such as above
+@app.route("/parks/name/near/<name>")
+def nameNear(name):
+    #setup the connection
+    conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
+    db = conn.parks
+
+    #get the request parameters
+    lat = float(request.args.get('lat'))
+    lon = float(request.args.get('lon'))
+
+    #compile the regex we want to search for and make it case insensitive
+    myregex = re.compile(name, re.I)
+
+    #use the request parameters in the query along with the regex
+    result = db.parkpoints.find({"Name" : myregex, "pos" : { "$near" : [lon,lat]}})
+
+    #turn the results into valid JSON
+    return str(json.dumps({'results' : list(result)},default=json_util.default))
+
