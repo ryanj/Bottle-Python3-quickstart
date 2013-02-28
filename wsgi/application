@@ -9,16 +9,18 @@ app = application
 @app.route('/hello')
 @app.route('/hello/<name>')
 def greet(name='Stranger'):
-    return bottle.template('Hello {{name}}, how are you?', name=name)
+    return bottle.template('Hello %s, how are you?', name)
 
 """
-@app.route("/ws/parks")
+@app.route("/parks")
 def parks():
     conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
     db = conn.parks
     result = db.parkpoints.find()
     return bottle.template(str(json.dumps({'results':list(result)}, default=json_util.default)))
 
-@app.route("/ws/parks/park/<parkId>")
-
+@app.route("/parks/park/<parkId>")
+    conn = pymongo.Connnection(os.environ['OPENSHIFT_MONGODB_URL'])
+    db = conn.parks
+    result = db.parkpoints.find({'_id':objectied.ObjectID(parkID)})
 """
