@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import bottle
+import template,Bottle,route from bottle
 
 application = bottle.Bottle()
 
@@ -8,4 +8,7 @@ application = bottle.Bottle()
 @route('/hello')
 @route('/hello/<name>')
 def greet(name='Stranger'):
-    return bottle.template('Hello {{name}}, how are you?', name=name)
+    return template('Hello {{name}}, how are you?', name=name)
+
+
+
