@@ -39,7 +39,7 @@ def onePark(parkId):
     result = db.parkpoints.find({'_id': objectid.ObjectId(parkId)})
 
     #turn the results into valid JSON
-    return json.dumps({'results' : list(result)},default=json_utils.default))
+    return json.dumps({'results' : list(result)})
 
 #find parks near a lat and long passed in as query parameters (near?lat=45.5&lon=-82)
 @app.route("/parks/near")
