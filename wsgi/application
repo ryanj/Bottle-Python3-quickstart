@@ -43,15 +43,15 @@ def onePark(parkId):
     return json.dumps(str(list(result)))
 
 #find parks near a lat and long passed in as query parameters (near?lat=45.5&lon=-82)
-@app.route("/parks/near")
+@app.get("/parks/near")
 def near_form():
-    return '''<form method="POST" action="/login">
+    return '''<form method="POST" action="/parks/near">
                 <input name="Latitude" type="text" />
                 <input name="Longtitude" type="text" />
                 <input type="submit" />
               </form>'''
 
-@app.route("/parks/near", method='POST')
+@app.post("/parks/near")
 def near():
     #setup the connection
     conn = pymongo.Connection(os.environ['OPENSHIFT_MONGODB_DB_URL'])
