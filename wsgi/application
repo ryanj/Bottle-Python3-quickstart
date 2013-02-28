@@ -27,7 +27,7 @@ def parks():
     result = db.parkpoints.find()
 
     #Now turn the results into valid JSON
-    return json.dumps(str(list(result)))
+    return json.dumps(result)
 
 #return a specific park given it's mongo _id
 @app.get("/park")
@@ -50,12 +50,12 @@ def onePark():
     #turn the results into valid JSON
     return json.dumps(str(list(result)))
 
-#find parks near a lat and long passed in as query parameters (near?lat=45.5&lon=-82)
+#find parks near a lat and long passed in as query parameters
 @app.get("/parks/near")
 def near_form():
     return '''<form method="POST" action="/parks/near">
-                <input name="lat" value="Latitude" type="text" />
                 <input name="lon" value="Longtitude" type="text" />
+                <input name="lat" value="Latitude" type="text" />
                 <input type="submit" />
               </form>'''
 
@@ -66,11 +66,11 @@ def near():
     db = conn.parks
 
     #get the request parameters
-    lat = float(request.forms.get('lat'))
     lon = float(request.forms.get('lon'))
+    lat = float(request.forms.get('lat'))
 
     #use the request parameters in the query
-    result = db.parkpoints.find({"pos" : { "$near" : [lat,lon]}}).limit(10)
+    result = db.parkpoints.find({"pos" : { "$near" : [lon,lat]}}).limit(10)
 
     #turn the results into valid JSON
     return json.dumps(str(list(result)))
@@ -80,8 +80,8 @@ def near():
 def nameNear_form():
     return '''<form method="POST" action="/parks/name/near">
                 <p><input name="parkname" value="Park Name" type="text" /></p>
-                <p><input name="lat" value="Latitude" type="text" />
-                <input name="lon" value="Longtitude" type="text" /></p>
+                <p><input name="lon" value="Longtitude" type="text" />
+                <input name="lat" value="Latitude" type="text" /></p>
                 <input type="submit" />
               </form>'''
 
@@ -93,8 +93,8 @@ def nameNear():
 
     #get the request parameters
     name = request.forms.get('parkname')
-    lat = float(request.forms.get('lat'))
     lon = float(request.forms.get('lon'))
+    lat = float(request.forms.get('lat'))
 
     #compile the regex we want to search for and make it case insensitive
     myregex = re.compile(name, re.I)
