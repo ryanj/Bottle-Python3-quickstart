@@ -29,7 +29,7 @@ Now, ssh into the application.
 
 Add the data to a collection called parkpoints:
 
-    mongoimport -d parks -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/wsgi/parkcoord.json -h $OPENSHIFT_MONGODB_DB_HOST -u $OPENSHIFT_MONGODB_DB_USER -p $OPENSHIFT_MONGODB_DB_PASSWORD
+    mongoimport -d parks -c parkpoints --type json --file $OPENSHIFT_REPO_DIR/wsgi/parkcoord.json -h $OPENSHIFT_MONGODB_DB_HOST -u $OPENSHIFT_MONGODB_DB_USERNAME -p $OPENSHIFT_MONGODB_DB_PASSWORD
 
 Create the spatial index on the documents:
 
@@ -40,4 +40,3 @@ Create the spatial index on the documents:
 Once the data is imported you can now checkout your application at:
 
     http://<app name>-<your namespace>.rhcloud.com/parks
-
