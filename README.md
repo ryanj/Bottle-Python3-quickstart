@@ -1,4 +1,4 @@
-Quick-start for Python 3.3 with Bottle framework running Mongo spatial queries
+Python 3.3 + Bottle running Mongo spatial queries
 =============================
 
 Running on OpenShift
